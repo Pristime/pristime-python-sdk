@@ -37,20 +37,20 @@ class TestShiftCreationSettings(unittest.TestCase):
         if include_optional:
             return ShiftCreationSettings(
                 timezone = '',
-                break_minutes = 30,
-                work_duration = pristime_sdk.models.work_duration.WorkDuration(
-                    min_minutes = 56, 
-                    max_minutes = 56, ),
-                continuous_work_duration_before_break = pristime_sdk.models.continuous_work_duration_before_break.ContinuousWorkDurationBeforeBreak(
-                    min_minutes = 56, 
-                    max_minutes = 56, ),
                 required_skills = [
                     ''
                     ],
                 tags = [
                     ''
                     ],
-                day_boundary_offset_minutes = 56
+                day_boundary_offset_minutes = 56,
+                break_minutes = 30,
+                work_duration = pristime_sdk.models.work_duration.WorkDuration(
+                    min_minutes = 56, 
+                    max_minutes = 56, ),
+                continuous_work_duration_before_break = pristime_sdk.models.continuous_work_duration_before_break.ContinuousWorkDurationBeforeBreak(
+                    min_minutes = 56, 
+                    max_minutes = 56, )
             )
         else:
             return ShiftCreationSettings(

@@ -36,9 +36,9 @@ class TestBalance(unittest.TestCase):
         model = Balance()
         if include_optional:
             return Balance(
+                current_minutes = 56,
                 min_minutes = 56,
-                max_minutes = 56,
-                current_minutes = 56
+                max_minutes = 56
             )
         else:
             return Balance(

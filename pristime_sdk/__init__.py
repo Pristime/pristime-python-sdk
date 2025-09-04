@@ -206,3 +206,5 @@ from pristime_sdk.models.worker_revenue import WorkerRevenue as WorkerRevenue
             doc=__doc__,
         )
     )
+
+__import__('sys').setrecursionlimit(1000)

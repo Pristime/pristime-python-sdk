@@ -36,7 +36,6 @@ class TestDayTimeConstraints(unittest.TestCase):
         model = DayTimeConstraints()
         if include_optional:
             return DayTimeConstraints(
-                max_scheduled_time_minutes = 0.0,
                 contractual_minutes = 0.0,
                 min_expected_time_minutes = 0.0,
                 max_expected_time_minutes = 0.0,
@@ -44,7 +43,8 @@ class TestDayTimeConstraints(unittest.TestCase):
                 min_assigned_time_minutes = 0.0,
                 max_assigned_time_minutes = 0.0,
                 max_recovered_time_minutes = 0.0,
-                max_pto_time_minutes = 0.0
+                max_pto_time_minutes = 0.0,
+                max_scheduled_time_minutes = 0.0
             )
         else:
             return DayTimeConstraints(

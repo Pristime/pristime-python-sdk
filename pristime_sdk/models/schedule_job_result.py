@@ -19,7 +19,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict
-from typing import Any, ClassVar, Dict, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pristime_sdk.models.broken_constraints import BrokenConstraints
 from pristime_sdk.models.durations import Durations
 from pristime_sdk.models.metrics import Metrics
@@ -31,11 +31,11 @@ class ScheduleJobResult(BaseModel):
     """
     Complete results from workforce scheduling optimization containing all assignments, metrics, and analysis.  This is the core result object containing everything you need to understand and implement the optimized schedule. It provides the assignment decisions, performance metrics, constraint violations, and operational statistics from the optimization process.  **Key Components:**  **Schedule Results:** - shifts: All shift assignments (both your provided shifts and newly created ones) - durations: Time-based summary of schedule changes and impact
     """ # noqa: E501
+    metrics: Optional[Metrics] = None
     shifts: Shifts
     durations: Durations
-    metrics: Optional[Metrics] = None
     broken_constraints: Optional[BrokenConstraints] = None
-    __properties: ClassVar[List[str]] = ["shifts", "durations", "metrics", "broken_constraints"]
+    __properties: ClassVar[List[str]] = ["metrics", "shifts", "durations", "broken_constraints"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -76,15 +76,15 @@ class ScheduleJobResult(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of metrics
+        if self.metrics:
+            _dict['metrics'] = self.metrics.to_dict()
         # override the default output from pydantic by calling `to_dict()` of shifts
         if self.shifts:
             _dict['shifts'] = self.shifts.to_dict()
         # override the default output from pydantic by calling `to_dict()` of durations
         if self.durations:
             _dict['durations'] = self.durations.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of metrics
-        if self.metrics:
-            _dict['metrics'] = self.metrics.to_dict()
         # override the default output from pydantic by calling `to_dict()` of broken_constraints
         if self.broken_constraints:
             _dict['broken_constraints'] = self.broken_constraints.to_dict()
@@ -104,10 +104,15 @@ class ScheduleJobResult(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in ScheduleJobResult) in the input: " + _key)
+
         _obj = cls.model_validate({
+            "metrics": Metrics.from_dict(obj["metrics"]) if obj.get("metrics") is not None else None,
             "shifts": Shifts.from_dict(obj["shifts"]) if obj.get("shifts") is not None else None,
             "durations": Durations.from_dict(obj["durations"]) if obj.get("durations") is not None else None,
-            "metrics": Metrics.from_dict(obj["metrics"]) if obj.get("metrics") is not None else None,
             "broken_constraints": BrokenConstraints.from_dict(obj["broken_constraints"]) if obj.get("broken_constraints") is not None else None
         })
         return _obj

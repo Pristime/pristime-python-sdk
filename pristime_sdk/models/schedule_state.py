@@ -116,6 +116,11 @@ class ScheduleState(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in ScheduleState) in the input: " + _key)
+
         _obj = cls.model_validate({
             "scheduling_period": SchedulingPeriod.from_dict(obj["scheduling_period"]) if obj.get("scheduling_period") is not None else None,
             "workers": [Worker.from_dict(_item) for _item in obj["workers"]] if obj.get("workers") is not None else None,

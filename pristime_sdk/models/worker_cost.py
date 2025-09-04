@@ -19,7 +19,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt
-from typing import Any, ClassVar, Dict, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -81,6 +81,11 @@ class WorkerCost(BaseModel):
 
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
+
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in WorkerCost) in the input: " + _key)
 
         _obj = cls.model_validate({
             "per_hour_of_positive_flextime_balance": obj.get("per_hour_of_positive_flextime_balance") if obj.get("per_hour_of_positive_flextime_balance") is not None else 11,

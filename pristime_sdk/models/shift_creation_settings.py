@@ -30,13 +30,13 @@ class ShiftCreationSettings(BaseModel):
     Configuration for automatically creating shifts to fulfill staffing demands.  When a demand cannot be fully satisfied by existing shifts, the system can automatically generate new shifts with these specifications. This is useful for:  - **Dynamic scheduling**: Create shifts on-demand based on actual staffing needs - **Gap filling**: Generate shifts to cover periods with insufficient existing coverage - **Uniform coverage**: Ensure consistent shift characteristics across time periods - **Skill-specific coverage**: Create shifts that require specific worker qualifications  **Important:** All created shifts must be compatible with the parent demand's requirements. For example, if the demand requires shifts with tag \"ICU\", the shift creation settings must include \"ICU\" in their tags.
     """ # noqa: E501
     timezone: StrictStr = Field(description="Timezone for all automatically created shifts. Should typically match the demand's timezone and your business location.")
-    break_minutes: StrictInt = Field(description="Duration in minutes for break periods that will be automatically added to created shifts. Breaks are unpaid time subtracted from work hours.")
-    work_duration: WorkDuration
-    continuous_work_duration_before_break: ContinuousWorkDurationBeforeBreak
     required_skills: Optional[List[StrictStr]] = Field(default=None, description="Skills, certifications, or qualifications required for workers to be assigned to created shifts. Must be a superset of the demand's required_skills.")
     tags: Optional[List[StrictStr]] = Field(default=None, description="Descriptive tags that will be applied to all created shifts. Must be a superset of the demand's required_shift_tags to ensure compatibility.")
     day_boundary_offset_minutes: Optional[StrictInt] = Field(default=0, description="Day boundary adjustment for created shifts, useful for night shift operations. Positive values shift the day end later (e.g., +120 = day ends at 2:00 AM).")
-    __properties: ClassVar[List[str]] = ["timezone", "break_minutes", "work_duration", "continuous_work_duration_before_break", "required_skills", "tags", "day_boundary_offset_minutes"]
+    break_minutes: StrictInt = Field(description="Duration in minutes for break periods that will be automatically added to created shifts. Breaks are unpaid time subtracted from work hours.")
+    work_duration: WorkDuration
+    continuous_work_duration_before_break: ContinuousWorkDurationBeforeBreak
+    __properties: ClassVar[List[str]] = ["timezone", "required_skills", "tags", "day_boundary_offset_minutes", "break_minutes", "work_duration", "continuous_work_duration_before_break"]
 
     @field_validator('break_minutes')
     def break_minutes_validate_enum(cls, value):
@@ -101,14 +101,19 @@ class ShiftCreationSettings(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in ShiftCreationSettings) in the input: " + _key)
+
         _obj = cls.model_validate({
             "timezone": obj.get("timezone"),
-            "break_minutes": obj.get("break_minutes"),
-            "work_duration": WorkDuration.from_dict(obj["work_duration"]) if obj.get("work_duration") is not None else None,
-            "continuous_work_duration_before_break": ContinuousWorkDurationBeforeBreak.from_dict(obj["continuous_work_duration_before_break"]) if obj.get("continuous_work_duration_before_break") is not None else None,
             "required_skills": obj.get("required_skills"),
             "tags": obj.get("tags"),
-            "day_boundary_offset_minutes": obj.get("day_boundary_offset_minutes") if obj.get("day_boundary_offset_minutes") is not None else 0
+            "day_boundary_offset_minutes": obj.get("day_boundary_offset_minutes") if obj.get("day_boundary_offset_minutes") is not None else 0,
+            "break_minutes": obj.get("break_minutes"),
+            "work_duration": WorkDuration.from_dict(obj["work_duration"]) if obj.get("work_duration") is not None else None,
+            "continuous_work_duration_before_break": ContinuousWorkDurationBeforeBreak.from_dict(obj["continuous_work_duration_before_break"]) if obj.get("continuous_work_duration_before_break") is not None else None
         })
         return _obj
 

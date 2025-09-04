@@ -327,7 +327,7 @@ conf = pristime_sdk.Configuration(
         """Options to pass down to the underlying urllib3 socket
         """
 
-        self.datetime_format = "%Y-%m-%dT%H:%M:%S.%f%z"
+        self.datetime_format = "%Y-%m-%dT%H:%M:%S%z"
         """datetime format
         """
 

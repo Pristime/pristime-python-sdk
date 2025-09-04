@@ -21,7 +21,7 @@ from setuptools import setup, find_packages  # noqa: H301
 #
 # prerequisite: setuptools
 # http://pypi.python.org/pypi/setuptools
-NAME = "pristime-python-sdk"
+NAME = "pristime-sdk"
 VERSION = "1.0.0"
 PYTHON_REQUIRES = ">= 3.9"
 REQUIRES = [
@@ -38,7 +38,7 @@ setup(
     description="Pristime Workforce Scheduling API",
     author="Pristime Support",
     author_email="antoine.hachez@pristime.com",
-    url="pristime_sdk",
+    url="https://github.com/antoine-hachez/pristime-python-sdk",
     keywords=["OpenAPI", "OpenAPI-Generator", "Pristime Workforce Scheduling API"],
     install_requires=REQUIRES,
     packages=find_packages(exclude=["test", "tests"]),

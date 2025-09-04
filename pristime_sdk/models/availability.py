@@ -104,6 +104,11 @@ class Availability(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in Availability) in the input: " + _key)
+
         _obj = cls.model_validate({
             "unavailable_periods": [Period.from_dict(_item) for _item in obj["unavailable_periods"]] if obj.get("unavailable_periods") is not None else None,
             "preferred_periods": [Period.from_dict(_item) for _item in obj["preferred_periods"]] if obj.get("preferred_periods") is not None else None,

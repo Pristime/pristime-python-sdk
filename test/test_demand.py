@@ -37,6 +37,11 @@ class TestDemand(unittest.TestCase):
         if include_optional:
             return Demand(
                 id = '',
+                label = '',
+                time_series = {
+                    'key' : 1.337
+                    },
+                upper_limit_increment = 56,
                 timezone = '',
                 required_skills = [
                     ''
@@ -44,11 +49,6 @@ class TestDemand(unittest.TestCase):
                 required_tags = [
                     ''
                     ],
-                label = '',
-                time_series = {
-                    'key' : 1.337
-                    },
-                upper_limit_increment = 56,
                 revenues = pristime_sdk.models.demand_revenue.DemandRevenue(),
                 shift_creation_settings = pristime_sdk.models.shift_creation_settings.ShiftCreationSettings(
                     timezone = '', 

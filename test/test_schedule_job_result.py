@@ -36,6 +36,30 @@ class TestScheduleJobResult(unittest.TestCase):
         model = ScheduleJobResult()
         if include_optional:
             return ScheduleJobResult(
+                metrics = pristime_sdk.models.metrics.Metrics(
+                    start_date = datetime.datetime.strptime('1975-12-30', '%Y-%m-%d').date(), 
+                    end_date = datetime.datetime.strptime('1975-12-30', '%Y-%m-%d').date(), 
+                    profit = 1.337, 
+                    partial_profit = 1.337, 
+                    pto_time_revenue = 1.337, 
+                    assignment_revenue = 1.337, 
+                    skill_revenue = 1.337, 
+                    continuity_revenue = 1.337, 
+                    demand_revenue = 1.337, 
+                    preferred_time_revenue = 1.337, 
+                    variable_costs = 1.337, 
+                    overtime_cost = 1.337, 
+                    has_exceeded_preferred_max_consecutive_workdays_limit_cost = 1.337, 
+                    idle_time_cost = 1.337, 
+                    assignment_cost = 1.337, 
+                    unpreferred_time_cost = 1.337, 
+                    period_closing_profit = 1.337, 
+                    flextime_balance_negative_revenue = 1.337, 
+                    flextime_balance_positive_cost = 1.337, 
+                    overtime_balance_cost = 1.337, 
+                    assigned_time = 1.337, 
+                    overtime = 1.337, 
+                    recovered_time = 1.337, ),
                 shifts = pristime_sdk.models.shifts.Shifts(
                     provided = {
                         'key' : pristime_sdk.models.shift_assignment_result.ShiftAssignmentResult(
@@ -77,30 +101,6 @@ class TestScheduleJobResult(unittest.TestCase):
                         remained_unassigned_minutes = 56, 
                         gained_assignment_minutes = 56, ), 
                     created = 56, ),
-                metrics = pristime_sdk.models.metrics.Metrics(
-                    start_date = datetime.datetime.strptime('1975-12-30', '%Y-%m-%d').date(), 
-                    end_date = datetime.datetime.strptime('1975-12-30', '%Y-%m-%d').date(), 
-                    profit = 1.337, 
-                    partial_profit = 1.337, 
-                    pto_time_revenue = 1.337, 
-                    assignment_revenue = 1.337, 
-                    skill_revenue = 1.337, 
-                    continuity_revenue = 1.337, 
-                    demand_revenue = 1.337, 
-                    preferred_time_revenue = 1.337, 
-                    variable_costs = 1.337, 
-                    overtime_cost = 1.337, 
-                    has_exceeded_preferred_max_consecutive_workdays_limit_cost = 1.337, 
-                    idle_time_cost = 1.337, 
-                    assignment_cost = 1.337, 
-                    unpreferred_time_cost = 1.337, 
-                    period_closing_profit = 1.337, 
-                    flextime_balance_negative_revenue = 1.337, 
-                    flextime_balance_positive_cost = 1.337, 
-                    overtime_balance_cost = 1.337, 
-                    assigned_time = 1.337, 
-                    overtime = 1.337, 
-                    recovered_time = 1.337, ),
                 broken_constraints = pristime_sdk.models.broken_constraints.BrokenConstraints(
                     warnings = [
                         ''

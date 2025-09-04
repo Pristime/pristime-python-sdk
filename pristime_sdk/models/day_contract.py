@@ -19,7 +19,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt
-from typing import Any, ClassVar, Dict, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pristime_sdk.models.day_allow import DayAllow
 from pristime_sdk.models.day_costs import DayCosts
 from pristime_sdk.models.day_time_constraints import DayTimeConstraints
@@ -94,6 +94,11 @@ class DayContract(BaseModel):
 
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
+
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in DayContract) in the input: " + _key)
 
         _obj = cls.model_validate({
             "time_constraints": DayTimeConstraints.from_dict(obj["time_constraints"]) if obj.get("time_constraints") is not None else None,

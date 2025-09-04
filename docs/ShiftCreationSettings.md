@@ -7,12 +7,12 @@ Configuration for automatically creating shifts to fulfill staffing demands.  Wh
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **timezone** | **str** | Timezone for all automatically created shifts. Should typically match the demand&#39;s timezone and your business location. | 
-**break_minutes** | **int** | Duration in minutes for break periods that will be automatically added to created shifts. Breaks are unpaid time subtracted from work hours. | 
-**work_duration** | [**WorkDuration**](WorkDuration.md) |  | 
-**continuous_work_duration_before_break** | [**ContinuousWorkDurationBeforeBreak**](ContinuousWorkDurationBeforeBreak.md) |  | 
 **required_skills** | **List[str]** | Skills, certifications, or qualifications required for workers to be assigned to created shifts. Must be a superset of the demand&#39;s required_skills. | [optional] [default to []]
 **tags** | **List[str]** | Descriptive tags that will be applied to all created shifts. Must be a superset of the demand&#39;s required_shift_tags to ensure compatibility. | [optional] [default to []]
 **day_boundary_offset_minutes** | **int** | Day boundary adjustment for created shifts, useful for night shift operations. Positive values shift the day end later (e.g., +120 &#x3D; day ends at 2:00 AM). | [optional] [default to 0]
+**break_minutes** | **int** | Duration in minutes for break periods that will be automatically added to created shifts. Breaks are unpaid time subtracted from work hours. | 
+**work_duration** | [**WorkDuration**](WorkDuration.md) |  | 
+**continuous_work_duration_before_break** | [**ContinuousWorkDurationBeforeBreak**](ContinuousWorkDurationBeforeBreak.md) |  | 
 
 ## Example
 

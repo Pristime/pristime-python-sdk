@@ -19,7 +19,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict
-from typing import Any, ClassVar, Dict
+from typing import Any, ClassVar, Dict, List
 from pristime_sdk.models.balance import Balance
 from typing import Optional, Set
 from typing_extensions import Self
@@ -87,6 +87,11 @@ class Balances(BaseModel):
 
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
+
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in Balances) in the input: " + _key)
 
         _obj = cls.model_validate({
             "overtime_balance": Balance.from_dict(obj["overtime_balance"]) if obj.get("overtime_balance") is not None else None,

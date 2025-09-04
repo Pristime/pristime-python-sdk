@@ -20,7 +20,7 @@ import json
 
 from datetime import date
 from pydantic import BaseModel, ConfigDict, Field, StrictInt
-from typing import Any, ClassVar, Dict, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pristime_sdk.models.day_contract import DayContract
 from pristime_sdk.models.period_costs import PeriodCosts
 from pristime_sdk.models.period_day_constraints import PeriodDayConstraints
@@ -106,6 +106,11 @@ class PeriodContract(BaseModel):
 
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
+
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in PeriodContract) in the input: " + _key)
 
         _obj = cls.model_validate({
             "start_date": obj.get("start_date"),

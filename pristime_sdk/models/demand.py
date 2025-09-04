@@ -29,15 +29,15 @@ class Demand(BaseModel):
     Represents staffing requirements that need to be met during scheduling optimization.  A demand specifies: - **When**: Time periods requiring staff coverage (via time_series) - **How many**: Number of workers needed at each time point - **What skills**: Required qualifications for workers and shifts - **How to fulfill**: Optional shift creation settings for automatic coverage  **Time Series Format:** Demands use a time series to specify changing staffing needs over time. Each entry represents a change point where the required staffing level changes. Example: {9:00 AM: 3, 1:00 PM: 2, 5:00 PM: 0} means: - 3 workers needed from 9:00 AM to 1:00 PM - 2 workers needed from 1:00 PM to 5:00 PM - 0 workers needed after 5:00 PM  **Automatic Shift Creation:** When shift_creation_settings are provided, the system can automatically generate shifts to meet this demand if existing shifts are insufficient.  **Revenue Optimization:** Demand fulfillment generates revenue in the optimization algorithm, encouraging the system to prioritize meeting high-value staffing requirements.
     """ # noqa: E501
     id: StrictStr = Field(description="Your system's unique identifier for this demand (e.g., department ID, location ID, event ID).")
-    timezone: StrictStr = Field(description="Timezone for interpreting the demand time series and any automatically created shifts. Should match your local business timezone.")
-    required_skills: List[StrictStr] = Field(description="Skills, certifications, or qualifications that workers must possess to fulfill this demand. Only workers with all these skills will be considered.")
-    required_tags: List[StrictStr] = Field(description="Tags that shifts must have to count toward fulfilling this demand. Useful for matching specific shift types, locations, or characteristics.")
     label: Optional[StrictStr] = None
     time_series: Optional[Dict[str, Union[StrictFloat, StrictInt]]] = Field(default=None, description="Staffing level requirements over time as change points. Each entry specifies when the required number of workers changes. Format: {timestamp: worker_count}. The last entry must be 0 to indicate demand end.")
     upper_limit_increment: Optional[StrictInt] = None
+    timezone: StrictStr = Field(description="Timezone for interpreting the demand time series and any automatically created shifts. Should match your local business timezone.")
+    required_skills: List[StrictStr] = Field(description="Skills, certifications, or qualifications that workers must possess to fulfill this demand. Only workers with all these skills will be considered.")
+    required_tags: List[StrictStr] = Field(description="Tags that shifts must have to count toward fulfilling this demand. Useful for matching specific shift types, locations, or characteristics.")
     revenues: Optional[Dict[str, Any]] = None
     shift_creation_settings: Optional[ShiftCreationSettings] = None
-    __properties: ClassVar[List[str]] = ["id", "timezone", "required_skills", "required_tags", "label", "time_series", "upper_limit_increment", "revenues", "shift_creation_settings"]
+    __properties: ClassVar[List[str]] = ["id", "label", "time_series", "upper_limit_increment", "timezone", "required_skills", "required_tags", "revenues", "shift_creation_settings"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -107,14 +107,19 @@ class Demand(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in Demand) in the input: " + _key)
+
         _obj = cls.model_validate({
             "id": obj.get("id"),
-            "timezone": obj.get("timezone"),
-            "required_skills": obj.get("required_skills"),
-            "required_tags": obj.get("required_tags"),
             "label": obj.get("label"),
             "time_series": obj.get("time_series"),
             "upper_limit_increment": obj.get("upper_limit_increment"),
+            "timezone": obj.get("timezone"),
+            "required_skills": obj.get("required_skills"),
+            "required_tags": obj.get("required_tags"),
             "revenues": obj.get("revenues"),
             "shift_creation_settings": ShiftCreationSettings.from_dict(obj["shift_creation_settings"]) if obj.get("shift_creation_settings") is not None else None
         })

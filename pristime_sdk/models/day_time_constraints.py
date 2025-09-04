@@ -19,7 +19,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field
-from typing import Any, ClassVar, Dict, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from typing import Optional, Set
 from typing_extensions import Self
@@ -28,7 +28,6 @@ class DayTimeConstraints(BaseModel):
     """
     Daily time constraints and limits for a worker's contract.  This class defines the rules and boundaries for how much time a worker can work on a specific date. It sets both minimum requirements (guarantees) and maximum limits (to prevent overwork and comply with labor regulations).  **Key Constraint Types:** - **Contractual Time**: The standard daily hours for flextime calculations - **Expected Time**: Minimum guaranteed hours (worker gets paid even if no work) - **Assigned Time**: Limits on actual productive work hours - **Overtime**: Extra hours beyond regular time, often at premium pay rates - **Scheduled Time**: Total time including work, PTO, and recovery time  **Common Patterns:** - Full-time: 8 hours expected, up to 10 hours total (2 hours overtime max) - Part-time: 4 hours expected, up to 6 hours total - On-call: 0 hours expected, up to 12 hours available
     """ # noqa: E501
-    max_scheduled_time_minutes: Annotated[int, Field(le=1440, strict=True, ge=0)] = Field(description="Maximum total scheduled minutes on this date including work (assigned time), PTO, and recovery time. Sets overall daily time limit regardless of activity type.")
     contractual_minutes: Optional[Annotated[int, Field(le=1440, strict=True, ge=0)]] = None
     min_expected_time_minutes: Optional[Annotated[int, Field(le=1440, strict=True, ge=0)]] = Field(default=0, description="Minimum guaranteed hours in minutes the worker must be paid for on this date if they're scheduled at all.")
     max_expected_time_minutes: Optional[Annotated[int, Field(le=1440, strict=True, ge=0)]] = Field(default=0, description="Maximum hours in minutes the worker is expected to work on this date before it becomes overtime. Sets the boundary for regular vs overtime pay.")
@@ -37,7 +36,8 @@ class DayTimeConstraints(BaseModel):
     max_assigned_time_minutes: Optional[Annotated[int, Field(le=1440, strict=True, ge=0)]] = Field(default=1440, description="Maximum productive work time in minutes that can be assigned on this date. Limits actual working time regardless of total scheduled time.")
     max_recovered_time_minutes: Optional[Annotated[int, Field(le=1440, strict=True, ge=0)]] = Field(default=1440, description="Maximum overtime recovery time in minutes that can be taken on this date.")
     max_pto_time_minutes: Optional[Annotated[int, Field(le=1440, strict=True, ge=0)]] = Field(default=0, description="Maximum paid time off minutes (vacation, sick leave) that can be taken on this date.")
-    __properties: ClassVar[List[str]] = ["max_scheduled_time_minutes", "contractual_minutes", "min_expected_time_minutes", "max_expected_time_minutes", "max_overtime_minutes", "min_assigned_time_minutes", "max_assigned_time_minutes", "max_recovered_time_minutes", "max_pto_time_minutes"]
+    max_scheduled_time_minutes: Annotated[int, Field(le=1440, strict=True, ge=0)] = Field(description="Maximum total scheduled minutes on this date including work (assigned time), PTO, and recovery time. Sets overall daily time limit regardless of activity type.")
+    __properties: ClassVar[List[str]] = ["contractual_minutes", "min_expected_time_minutes", "max_expected_time_minutes", "max_overtime_minutes", "min_assigned_time_minutes", "max_assigned_time_minutes", "max_recovered_time_minutes", "max_pto_time_minutes", "max_scheduled_time_minutes"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -94,8 +94,12 @@ class DayTimeConstraints(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in DayTimeConstraints) in the input: " + _key)
+
         _obj = cls.model_validate({
-            "max_scheduled_time_minutes": obj.get("max_scheduled_time_minutes"),
             "contractual_minutes": obj.get("contractual_minutes"),
             "min_expected_time_minutes": obj.get("min_expected_time_minutes") if obj.get("min_expected_time_minutes") is not None else 0,
             "max_expected_time_minutes": obj.get("max_expected_time_minutes") if obj.get("max_expected_time_minutes") is not None else 0,
@@ -103,7 +107,8 @@ class DayTimeConstraints(BaseModel):
             "min_assigned_time_minutes": obj.get("min_assigned_time_minutes") if obj.get("min_assigned_time_minutes") is not None else 0,
             "max_assigned_time_minutes": obj.get("max_assigned_time_minutes") if obj.get("max_assigned_time_minutes") is not None else 1440,
             "max_recovered_time_minutes": obj.get("max_recovered_time_minutes") if obj.get("max_recovered_time_minutes") is not None else 1440,
-            "max_pto_time_minutes": obj.get("max_pto_time_minutes") if obj.get("max_pto_time_minutes") is not None else 0
+            "max_pto_time_minutes": obj.get("max_pto_time_minutes") if obj.get("max_pto_time_minutes") is not None else 0,
+            "max_scheduled_time_minutes": obj.get("max_scheduled_time_minutes")
         })
         return _obj
 

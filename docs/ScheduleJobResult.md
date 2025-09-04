@@ -6,9 +6,9 @@ Complete results from workforce scheduling optimization containing all assignmen
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**metrics** | [**Metrics**](Metrics.md) |  | [optional] 
 **shifts** | [**Shifts**](Shifts.md) |  | 
 **durations** | [**Durations**](Durations.md) |  | 
-**metrics** | [**Metrics**](Metrics.md) |  | [optional] 
 **broken_constraints** | [**BrokenConstraints**](BrokenConstraints.md) |  | [optional] 
 
 ## Example

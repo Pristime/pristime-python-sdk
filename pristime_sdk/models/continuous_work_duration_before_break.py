@@ -29,7 +29,6 @@ class ContinuousWorkDurationBeforeBreak(BaseModel):
     """ # noqa: E501
     min_minutes: StrictInt = Field(description="Minimum continuous work time in minutes before a shift can start a break")
     max_minutes: StrictInt = Field(description="Maximum continuous work time in minutes before a shift can start a break")
-    additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["min_minutes", "max_minutes"]
 
     model_config = ConfigDict(
@@ -62,10 +61,8 @@ class ContinuousWorkDurationBeforeBreak(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
-        * Fields in `self.additional_properties` are added to the output dict.
         """
         excluded_fields: Set[str] = set([
-            "additional_properties",
         ])
 
         _dict = self.model_dump(
@@ -73,11 +70,6 @@ class ContinuousWorkDurationBeforeBreak(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # puts key-value pairs in additional_properties in the top level
-        if self.additional_properties is not None:
-            for _key, _value in self.additional_properties.items():
-                _dict[_key] = _value
-
         return _dict
 
     @classmethod
@@ -89,15 +81,15 @@ class ContinuousWorkDurationBeforeBreak(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in ContinuousWorkDurationBeforeBreak) in the input: " + _key)
+
         _obj = cls.model_validate({
             "min_minutes": obj.get("min_minutes"),
             "max_minutes": obj.get("max_minutes")
         })
-        # store additional fields in additional_properties
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                _obj.additional_properties[_key] = obj.get(_key)
-
         return _obj
 
 

@@ -30,7 +30,6 @@ class TagCount(BaseModel):
     """ # noqa: E501
     since_date: date = Field(description="The date from which we started counting the number of shifts with this tag.")
     count: StrictInt = Field(description="The number of shifts with this tag on the scheduling start date.")
-    additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["since_date", "count"]
 
     model_config = ConfigDict(
@@ -63,10 +62,8 @@ class TagCount(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
-        * Fields in `self.additional_properties` are added to the output dict.
         """
         excluded_fields: Set[str] = set([
-            "additional_properties",
         ])
 
         _dict = self.model_dump(
@@ -74,11 +71,6 @@ class TagCount(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # puts key-value pairs in additional_properties in the top level
-        if self.additional_properties is not None:
-            for _key, _value in self.additional_properties.items():
-                _dict[_key] = _value
-
         return _dict
 
     @classmethod
@@ -90,15 +82,15 @@ class TagCount(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in TagCount) in the input: " + _key)
+
         _obj = cls.model_validate({
             "since_date": obj.get("since_date"),
             "count": obj.get("count")
         })
-        # store additional fields in additional_properties
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                _obj.additional_properties[_key] = obj.get(_key)
-
         return _obj
 
 

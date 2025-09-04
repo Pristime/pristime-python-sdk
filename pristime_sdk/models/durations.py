@@ -19,7 +19,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt
-from typing import Any, ClassVar, Dict
+from typing import Any, ClassVar, Dict, List
 from pristime_sdk.models.provided_shifts_durations import ProvidedShiftsDurations
 from typing import Optional, Set
 from typing_extensions import Self
@@ -84,6 +84,11 @@ class Durations(BaseModel):
 
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
+
+        # raise errors for additional fields in the input
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                raise ValueError("Error due to additional fields (not defined in Durations) in the input: " + _key)
 
         _obj = cls.model_validate({
             "provided": ProvidedShiftsDurations.from_dict(obj["provided"]) if obj.get("provided") is not None else None,
