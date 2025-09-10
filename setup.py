@@ -3,7 +3,7 @@
 """
     Pristime Workforce Scheduling API
 
-             ## Pristime Workforce Scheduling API          The Pristime Scheduling API lets clients provide workers, shifts,         and constraints, and returns optimized schedules.          ## Authentication          All endpoints require an API key in the `Pristime-API-Key` header.          ## Support          For technical support, contact us at antoine.hachez@pristime.com         
+             ## Pristime Workforce Scheduling API          The Pristime Scheduling API lets clients provide workers, shifts,         and constraints, and returns optimized schedules.          ## Authentication          All endpoints require an API key in the `Authorization` header.          ## Support          For technical support, contact us at antoine.hachez@pristime.com         
 
     The version of the OpenAPI document: 2.0.0
     Contact: antoine.hachez@pristime.com
@@ -29,7 +29,6 @@ REQUIRES = [
     "python-dateutil >= 2.8.2",
     "pydantic >= 2",
     "typing-extensions >= 4.7.1",
-    "lazy-imports >= 1, < 2",
 ]
 
 setup(
@@ -38,14 +37,14 @@ setup(
     description="Pristime Workforce Scheduling API",
     author="Pristime Support",
     author_email="antoine.hachez@pristime.com",
-    url="https://github.com/antoine-hachez/pristime-python-sdk",
+    url="https://github.com/pristime/pristime-python-sdk",
     keywords=["OpenAPI", "OpenAPI-Generator", "Pristime Workforce Scheduling API"],
     install_requires=REQUIRES,
     packages=find_packages(exclude=["test", "tests"]),
     include_package_data=True,
     long_description_content_type='text/markdown',
     long_description="""\
-             ## Pristime Workforce Scheduling API          The Pristime Scheduling API lets clients provide workers, shifts,         and constraints, and returns optimized schedules.          ## Authentication          All endpoints require an API key in the &#x60;Pristime-API-Key&#x60; header.          ## Support          For technical support, contact us at antoine.hachez@pristime.com         
+             ## Pristime Workforce Scheduling API          The Pristime Scheduling API lets clients provide workers, shifts,         and constraints, and returns optimized schedules.          ## Authentication          All endpoints require an API key in the &#x60;Authorization&#x60; header.          ## Support          For technical support, contact us at antoine.hachez@pristime.com         
     """,  # noqa: E501
     package_data={"pristime_sdk": ["py.typed"]},
 )

@@ -17,7 +17,7 @@ Initiates an asynchronous workforce scheduling optimization process. Takes worke
 
 ### Example
 
-* Api Key Authentication (APIKeyHeader):
+* Bearer Authentication (HTTPBearer):
 
 ```python
 import pristime_sdk
@@ -37,11 +37,10 @@ configuration = pristime_sdk.Configuration(
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
 
-# Configure API key authorization: APIKeyHeader
-configuration.api_key['APIKeyHeader'] = os.environ["API_KEY"]
-
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# configuration.api_key_prefix['APIKeyHeader'] = 'Bearer'
+# Configure Bearer authorization: HTTPBearer
+configuration = pristime_sdk.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
 
 # Enter a context with an instance of the API client
 with pristime_sdk.ApiClient(configuration) as api_client:
@@ -73,7 +72,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[APIKeyHeader](../README.md#APIKeyHeader)
+[HTTPBearer](../README.md#HTTPBearer)
 
 ### HTTP request headers
 
@@ -85,7 +84,7 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Scheduling job initiated successfully and is now running in the background |  -  |
-**401** | Authentication required - Please provide a valid API key in the request headers (must be sent in the &#x60;Pristime-API-Key&#x60; header) |  -  |
+**401** | Authentication required - Please provide a valid API key in the Authorization header (Bearer token) |  -  |
 **403** | Access denied - Your organization needs an active subscription to use scheduling services |  -  |
 **422** | Invalid request data - Please check that workers, shifts, demands, and constraints are properly formatted and follow business rules |  -  |
 **500** | Server error - An unexpected error occurred while processing your scheduling request |  -  |
@@ -101,7 +100,7 @@ Retrieves the current status and results of a workforce scheduling optimization 
 
 ### Example
 
-* Api Key Authentication (APIKeyHeader):
+* Bearer Authentication (HTTPBearer):
 
 ```python
 import pristime_sdk
@@ -120,11 +119,10 @@ configuration = pristime_sdk.Configuration(
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
 
-# Configure API key authorization: APIKeyHeader
-configuration.api_key['APIKeyHeader'] = os.environ["API_KEY"]
-
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# configuration.api_key_prefix['APIKeyHeader'] = 'Bearer'
+# Configure Bearer authorization: HTTPBearer
+configuration = pristime_sdk.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
 
 # Enter a context with an instance of the API client
 with pristime_sdk.ApiClient(configuration) as api_client:
@@ -156,7 +154,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[APIKeyHeader](../README.md#APIKeyHeader)
+[HTTPBearer](../README.md#HTTPBearer)
 
 ### HTTP request headers
 
@@ -168,7 +166,7 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Job status and results retrieved successfully |  -  |
-**401** | Authentication required - Please provide a valid API key in the request headers |  -  |
+**401** | Authentication required - Please provide a valid API key in the Authorization header (Bearer token) |  -  |
 **403** | Access denied - Your organization needs an active subscription to use scheduling services |  -  |
 **422** | Invalid request data |  -  |
 **404** | Scheduling job not found - Please check the job ID is correct |  -  |

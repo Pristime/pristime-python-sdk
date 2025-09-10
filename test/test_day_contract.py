@@ -3,7 +3,7 @@
 """
     Pristime Workforce Scheduling API
 
-             ## Pristime Workforce Scheduling API          The Pristime Scheduling API lets clients provide workers, shifts,         and constraints, and returns optimized schedules.          ## Authentication          All endpoints require an API key in the `Pristime-API-Key` header.          ## Support          For technical support, contact us at antoine.hachez@pristime.com         
+             ## Pristime Workforce Scheduling API          The Pristime Scheduling API lets clients provide workers, shifts,         and constraints, and returns optimized schedules.          ## Authentication          All endpoints require an API key in the `Authorization` header.          ## Support          For technical support, contact us at antoine.hachez@pristime.com         
 
     The version of the OpenAPI document: 2.0.0
     Contact: antoine.hachez@pristime.com
@@ -37,7 +37,7 @@ class TestDayContract(unittest.TestCase):
         if include_optional:
             return DayContract(
                 time_constraints = pristime_sdk.models.day_time_constraints.DayTimeConstraints(
-                    contractual_minutes = 0.0, 
+                    contractual_time_minutes = 0.0, 
                     min_expected_time_minutes = 0.0, 
                     max_expected_time_minutes = 0.0, 
                     max_overtime_minutes = 0.0, 

@@ -3,7 +3,7 @@
 """
     Pristime Workforce Scheduling API
 
-             ## Pristime Workforce Scheduling API          The Pristime Scheduling API lets clients provide workers, shifts,         and constraints, and returns optimized schedules.          ## Authentication          All endpoints require an API key in the `Pristime-API-Key` header.          ## Support          For technical support, contact us at antoine.hachez@pristime.com         
+             ## Pristime Workforce Scheduling API          The Pristime Scheduling API lets clients provide workers, shifts,         and constraints, and returns optimized schedules.          ## Authentication          All endpoints require an API key in the `Authorization` header.          ## Support          For technical support, contact us at antoine.hachez@pristime.com         
 
     The version of the OpenAPI document: 2.0.0
     Contact: antoine.hachez@pristime.com
@@ -304,7 +304,7 @@ class WorkforceSchedulingApi:
 
         # authentication setting
         _auth_settings: List[str] = [
-            'APIKeyHeader'
+            'HTTPBearer'
         ]
 
         return self.api_client.param_serialize(
@@ -580,7 +580,7 @@ class WorkforceSchedulingApi:
 
         # authentication setting
         _auth_settings: List[str] = [
-            'APIKeyHeader'
+            'HTTPBearer'
         ]
 
         return self.api_client.param_serialize(

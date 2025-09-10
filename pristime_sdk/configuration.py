@@ -3,7 +3,7 @@
 """
     Pristime Workforce Scheduling API
 
-             ## Pristime Workforce Scheduling API          The Pristime Scheduling API lets clients provide workers, shifts,         and constraints, and returns optimized schedules.          ## Authentication          All endpoints require an API key in the `Pristime-API-Key` header.          ## Support          For technical support, contact us at antoine.hachez@pristime.com         
+             ## Pristime Workforce Scheduling API          The Pristime Scheduling API lets clients provide workers, shifts,         and constraints, and returns optimized schedules.          ## Authentication          All endpoints require an API key in the `Authorization` header.          ## Support          For technical support, contact us at antoine.hachez@pristime.com         
 
     The version of the OpenAPI document: 2.0.0
     Contact: antoine.hachez@pristime.com
@@ -114,7 +114,7 @@ HTTPSignatureAuthSetting = TypedDict(
 AuthSettings = TypedDict(
     "AuthSettings",
     {
-        "APIKeyHeader": APIKeyAuthSetting,
+        "HTTPBearer": BearerAuthSetting,
     },
     total=False,
 )
@@ -166,25 +166,6 @@ class Configuration:
       in PEM (str) or DER (bytes) format.
 
     :Example:
-
-    API Key Authentication Example.
-    Given the following security scheme in the OpenAPI specification:
-      components:
-        securitySchemes:
-          cookieAuth:         # name for the security scheme
-            type: apiKey
-            in: cookie
-            name: JSESSIONID  # cookie name
-
-    You can programmatically set the cookie:
-
-conf = pristime_sdk.Configuration(
-    api_key={'cookieAuth': 'abc123'}
-    api_key_prefix={'cookieAuth': 'JSESSIONID'}
-)
-
-    The following cookie will be added to the HTTP request:
-       Cookie: JSESSIONID abc123
     """
 
     _default: ClassVar[Optional[Self]] = None
@@ -512,14 +493,12 @@ conf = pristime_sdk.Configuration(
         :return: The Auth Settings information dict.
         """
         auth: AuthSettings = {}
-        if 'APIKeyHeader' in self.api_key:
-            auth['APIKeyHeader'] = {
-                'type': 'api_key',
+        if self.access_token is not None:
+            auth['HTTPBearer'] = {
+                'type': 'bearer',
                 'in': 'header',
-                'key': 'Pristime-API-Key',
-                'value': self.get_api_key_with_prefix(
-                    'APIKeyHeader',
-                ),
+                'key': 'Authorization',
+                'value': 'Bearer ' + self.access_token
             }
         return auth
 

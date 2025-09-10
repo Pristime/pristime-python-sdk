@@ -7,7 +7,7 @@
 
         ## Authentication
 
-        All endpoints require an API key in the `Pristime-API-Key` header.
+        All endpoints require an API key in the `Authorization` header.
 
         ## Support
 
@@ -154,12 +154,10 @@ Class | Method | HTTP request | Description
 
 
 Authentication schemes defined for the API:
-<a id="APIKeyHeader"></a>
-### APIKeyHeader
+<a id="HTTPBearer"></a>
+### HTTPBearer
 
-- **Type**: API key
-- **API key parameter name**: Pristime-API-Key
-- **Location**: HTTP header
+- **Type**: Bearer authentication
 
 
 ## Author

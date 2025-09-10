@@ -5,7 +5,7 @@
 """
     Pristime Workforce Scheduling API
 
-             ## Pristime Workforce Scheduling API          The Pristime Scheduling API lets clients provide workers, shifts,         and constraints, and returns optimized schedules.          ## Authentication          All endpoints require an API key in the `Pristime-API-Key` header.          ## Support          For technical support, contact us at antoine.hachez@pristime.com         
+             ## Pristime Workforce Scheduling API          The Pristime Scheduling API lets clients provide workers, shifts,         and constraints, and returns optimized schedules.          ## Authentication          All endpoints require an API key in the `Authorization` header.          ## Support          For technical support, contact us at antoine.hachez@pristime.com         
 
     The version of the OpenAPI document: 2.0.0
     Contact: antoine.hachez@pristime.com
@@ -74,75 +74,7 @@ __all__ = [
     "WorkerRevenue",
 ]
 
-if __import__("typing").TYPE_CHECKING:
-    # import apis into sdk package
-    from pristime_sdk.api.health_api import HealthApi as HealthApi
-    from pristime_sdk.api.workforce_scheduling_api import WorkforceSchedulingApi as WorkforceSchedulingApi
-    
-    # import ApiClient
-    from pristime_sdk.api_response import ApiResponse as ApiResponse
-    from pristime_sdk.api_client import ApiClient as ApiClient
-    from pristime_sdk.configuration import Configuration as Configuration
-    from pristime_sdk.exceptions import OpenApiException as OpenApiException
-    from pristime_sdk.exceptions import ApiTypeError as ApiTypeError
-    from pristime_sdk.exceptions import ApiValueError as ApiValueError
-    from pristime_sdk.exceptions import ApiKeyError as ApiKeyError
-    from pristime_sdk.exceptions import ApiAttributeError as ApiAttributeError
-    from pristime_sdk.exceptions import ApiException as ApiException
-    
-    # import models into sdk package
-    from pristime_sdk.models.availability import Availability as Availability
-    from pristime_sdk.models.balance import Balance as Balance
-    from pristime_sdk.models.balances import Balances as Balances
-    from pristime_sdk.models.broken_constraints import BrokenConstraints as BrokenConstraints
-    from pristime_sdk.models.constraint import Constraint as Constraint
-    from pristime_sdk.models.continuous_work_duration_before_break import ContinuousWorkDurationBeforeBreak as ContinuousWorkDurationBeforeBreak
-    from pristime_sdk.models.day_allow import DayAllow as DayAllow
-    from pristime_sdk.models.day_contract import DayContract as DayContract
-    from pristime_sdk.models.day_costs import DayCosts as DayCosts
-    from pristime_sdk.models.day_metrics import DayMetrics as DayMetrics
-    from pristime_sdk.models.day_shift_constraints import DayShiftConstraints as DayShiftConstraints
-    from pristime_sdk.models.day_time_constraints import DayTimeConstraints as DayTimeConstraints
-    from pristime_sdk.models.demand import Demand as Demand
-    from pristime_sdk.models.durations import Durations as Durations
-    from pristime_sdk.models.error_response import ErrorResponse as ErrorResponse
-    from pristime_sdk.models.max_consecutive_workdays import MaxConsecutiveWorkdays as MaxConsecutiveWorkdays
-    from pristime_sdk.models.metrics import Metrics as Metrics
-    from pristime_sdk.models.min_break_duration import MinBreakDuration as MinBreakDuration
-    from pristime_sdk.models.period import Period as Period
-    from pristime_sdk.models.period_contract import PeriodContract as PeriodContract
-    from pristime_sdk.models.period_costs import PeriodCosts as PeriodCosts
-    from pristime_sdk.models.period_day_constraints import PeriodDayConstraints as PeriodDayConstraints
-    from pristime_sdk.models.period_metrics import PeriodMetrics as PeriodMetrics
-    from pristime_sdk.models.period_time_constraints import PeriodTimeConstraints as PeriodTimeConstraints
-    from pristime_sdk.models.provided_shifts_durations import ProvidedShiftsDurations as ProvidedShiftsDurations
-    from pristime_sdk.models.response import Response as Response
-    from pristime_sdk.models.schedule_job_config import ScheduleJobConfig as ScheduleJobConfig
-    from pristime_sdk.models.schedule_job_response import ScheduleJobResponse as ScheduleJobResponse
-    from pristime_sdk.models.schedule_job_result import ScheduleJobResult as ScheduleJobResult
-    from pristime_sdk.models.schedule_state import ScheduleState as ScheduleState
-    from pristime_sdk.models.scheduling_period import SchedulingPeriod as SchedulingPeriod
-    from pristime_sdk.models.shift import Shift as Shift
-    from pristime_sdk.models.shift_assignment import ShiftAssignment as ShiftAssignment
-    from pristime_sdk.models.shift_assignment_result import ShiftAssignmentResult as ShiftAssignmentResult
-    from pristime_sdk.models.shift_creation_settings import ShiftCreationSettings as ShiftCreationSettings
-    from pristime_sdk.models.shift_revenues import ShiftRevenues as ShiftRevenues
-    from pristime_sdk.models.shifts import Shifts as Shifts
-    from pristime_sdk.models.tag_count import TagCount as TagCount
-    from pristime_sdk.models.work_duration import WorkDuration as WorkDuration
-    from pristime_sdk.models.worker import Worker as Worker
-    from pristime_sdk.models.worker_cost import WorkerCost as WorkerCost
-    from pristime_sdk.models.worker_revenue import WorkerRevenue as WorkerRevenue
-    
-else:
-    from lazy_imports import LazyModule, as_package, load
-
-    load(
-        LazyModule(
-            *as_package(__file__),
-            ("__version__", __version__),
-            ("__all__", __all__),
-            """# import apis into sdk package
+# import apis into sdk package
 from pristime_sdk.api.health_api import HealthApi as HealthApi
 from pristime_sdk.api.workforce_scheduling_api import WorkforceSchedulingApi as WorkforceSchedulingApi
 
@@ -201,10 +133,5 @@ from pristime_sdk.models.worker import Worker as Worker
 from pristime_sdk.models.worker_cost import WorkerCost as WorkerCost
 from pristime_sdk.models.worker_revenue import WorkerRevenue as WorkerRevenue
 
-""",
-            name=__name__,
-            doc=__doc__,
-        )
-    )
 
 __import__('sys').setrecursionlimit(1000)
