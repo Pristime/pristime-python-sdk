@@ -6,7 +6,7 @@ Daily time constraints and limits for a worker's contract.  This class defines t
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**contractual_minutes** | **int** |  | [optional] 
+**contractual_time_minutes** | **int** |  | [optional] 
 **min_expected_time_minutes** | **int** | Minimum guaranteed hours in minutes the worker must be paid for on this date if they&#39;re scheduled at all. | [optional] [default to 0]
 **max_expected_time_minutes** | **int** | Maximum hours in minutes the worker is expected to work on this date before it becomes overtime. Sets the boundary for regular vs overtime pay. | [optional] [default to 0]
 **max_overtime_minutes** | **int** | Maximum overtime hours in minutes allowed on this date. | [optional] [default to 1440]

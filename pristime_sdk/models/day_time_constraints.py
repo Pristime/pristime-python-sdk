@@ -3,7 +3,7 @@
 """
     Pristime Workforce Scheduling API
 
-             ## Pristime Workforce Scheduling API          The Pristime Scheduling API lets clients provide workers, shifts,         and constraints, and returns optimized schedules.          ## Authentication          All endpoints require an API key in the `Pristime-API-Key` header.          ## Support          For technical support, contact us at antoine.hachez@pristime.com         
+             ## Pristime Workforce Scheduling API          The Pristime Scheduling API lets clients provide workers, shifts,         and constraints, and returns optimized schedules.          ## Authentication          All endpoints require an API key in the `Authorization` header.          ## Support          For technical support, contact us at antoine.hachez@pristime.com         
 
     The version of the OpenAPI document: 2.0.0
     Contact: antoine.hachez@pristime.com
@@ -28,7 +28,7 @@ class DayTimeConstraints(BaseModel):
     """
     Daily time constraints and limits for a worker's contract.  This class defines the rules and boundaries for how much time a worker can work on a specific date. It sets both minimum requirements (guarantees) and maximum limits (to prevent overwork and comply with labor regulations).  **Key Constraint Types:** - **Contractual Time**: The standard daily hours for flextime calculations - **Expected Time**: Minimum guaranteed hours (worker gets paid even if no work) - **Assigned Time**: Limits on actual productive work hours - **Overtime**: Extra hours beyond regular time, often at premium pay rates - **Scheduled Time**: Total time including work, PTO, and recovery time  **Common Patterns:** - Full-time: 8 hours expected, up to 10 hours total (2 hours overtime max) - Part-time: 4 hours expected, up to 6 hours total - On-call: 0 hours expected, up to 12 hours available
     """ # noqa: E501
-    contractual_minutes: Optional[Annotated[int, Field(le=1440, strict=True, ge=0)]] = None
+    contractual_time_minutes: Optional[Annotated[int, Field(le=1440, strict=True, ge=0)]] = None
     min_expected_time_minutes: Optional[Annotated[int, Field(le=1440, strict=True, ge=0)]] = Field(default=0, description="Minimum guaranteed hours in minutes the worker must be paid for on this date if they're scheduled at all.")
     max_expected_time_minutes: Optional[Annotated[int, Field(le=1440, strict=True, ge=0)]] = Field(default=0, description="Maximum hours in minutes the worker is expected to work on this date before it becomes overtime. Sets the boundary for regular vs overtime pay.")
     max_overtime_minutes: Optional[Annotated[int, Field(le=1440, strict=True, ge=0)]] = Field(default=1440, description="Maximum overtime hours in minutes allowed on this date.")
@@ -37,7 +37,7 @@ class DayTimeConstraints(BaseModel):
     max_recovered_time_minutes: Optional[Annotated[int, Field(le=1440, strict=True, ge=0)]] = Field(default=1440, description="Maximum overtime recovery time in minutes that can be taken on this date.")
     max_pto_time_minutes: Optional[Annotated[int, Field(le=1440, strict=True, ge=0)]] = Field(default=0, description="Maximum paid time off minutes (vacation, sick leave) that can be taken on this date.")
     max_scheduled_time_minutes: Annotated[int, Field(le=1440, strict=True, ge=0)] = Field(description="Maximum total scheduled minutes on this date including work (assigned time), PTO, and recovery time. Sets overall daily time limit regardless of activity type.")
-    __properties: ClassVar[List[str]] = ["contractual_minutes", "min_expected_time_minutes", "max_expected_time_minutes", "max_overtime_minutes", "min_assigned_time_minutes", "max_assigned_time_minutes", "max_recovered_time_minutes", "max_pto_time_minutes", "max_scheduled_time_minutes"]
+    __properties: ClassVar[List[str]] = ["contractual_time_minutes", "min_expected_time_minutes", "max_expected_time_minutes", "max_overtime_minutes", "min_assigned_time_minutes", "max_assigned_time_minutes", "max_recovered_time_minutes", "max_pto_time_minutes", "max_scheduled_time_minutes"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -78,10 +78,10 @@ class DayTimeConstraints(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # set to None if contractual_minutes (nullable) is None
+        # set to None if contractual_time_minutes (nullable) is None
         # and model_fields_set contains the field
-        if self.contractual_minutes is None and "contractual_minutes" in self.model_fields_set:
-            _dict['contractual_minutes'] = None
+        if self.contractual_time_minutes is None and "contractual_time_minutes" in self.model_fields_set:
+            _dict['contractual_time_minutes'] = None
 
         return _dict
 
@@ -100,7 +100,7 @@ class DayTimeConstraints(BaseModel):
                 raise ValueError("Error due to additional fields (not defined in DayTimeConstraints) in the input: " + _key)
 
         _obj = cls.model_validate({
-            "contractual_minutes": obj.get("contractual_minutes"),
+            "contractual_time_minutes": obj.get("contractual_time_minutes"),
             "min_expected_time_minutes": obj.get("min_expected_time_minutes") if obj.get("min_expected_time_minutes") is not None else 0,
             "max_expected_time_minutes": obj.get("max_expected_time_minutes") if obj.get("max_expected_time_minutes") is not None else 0,
             "max_overtime_minutes": obj.get("max_overtime_minutes") if obj.get("max_overtime_minutes") is not None else 1440,
