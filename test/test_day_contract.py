@@ -60,6 +60,16 @@ class TestDayContract(unittest.TestCase):
             )
         else:
             return DayContract(
+                time_constraints = pristime_sdk.models.day_time_constraints.DayTimeConstraints(
+                    contractual_time_minutes = 0.0, 
+                    min_expected_time_minutes = 0.0, 
+                    max_expected_time_minutes = 0.0, 
+                    max_overtime_minutes = 0.0, 
+                    min_assigned_time_minutes = 0.0, 
+                    max_assigned_time_minutes = 0.0, 
+                    max_recovered_time_minutes = 0.0, 
+                    max_pto_time_minutes = 0.0, 
+                    max_scheduled_time_minutes = 0.0, ),
         )
         """
 

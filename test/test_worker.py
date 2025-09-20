@@ -42,8 +42,8 @@ class TestWorker(unittest.TestCase):
                     between_shifts_minutes = 0.0, 
                     between_days_minutes = 0.0, ),
                 max_consecutive_workdays = pristime_sdk.models.max_consecutive_workdays.MaxConsecutiveWorkdays(
-                    preferred = 1.0, 
-                    absolute = 1.0, ),
+                    absolute = 0.0, 
+                    preferred = 0.0, ),
                 balances = pristime_sdk.models.balances.Balances(
                     overtime_balance = pristime_sdk.models.balance.Balance(
                         current_minutes = 56, 
@@ -71,6 +71,16 @@ class TestWorker(unittest.TestCase):
                             max_scheduled_days = 0.0, ), 
                         days = {
                             'key' : pristime_sdk.models.day_contract.DayContract(
+                                time_constraints = pristime_sdk.models.day_time_constraints.DayTimeConstraints(
+                                    contractual_time_minutes = 0.0, 
+                                    min_expected_time_minutes = 0.0, 
+                                    max_expected_time_minutes = 0.0, 
+                                    max_overtime_minutes = 0.0, 
+                                    min_assigned_time_minutes = 0.0, 
+                                    max_assigned_time_minutes = 0.0, 
+                                    max_recovered_time_minutes = 0.0, 
+                                    max_pto_time_minutes = 0.0, 
+                                    max_scheduled_time_minutes = 0.0, ), 
                                 allow = pristime_sdk.models.day_allow.DayAllow(
                                     overtime_with_recovery = True, 
                                     overtime_with_pto = True, ), 

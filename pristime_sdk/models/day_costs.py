@@ -25,7 +25,7 @@ from typing_extensions import Self
 
 class DayCosts(BaseModel):
     """
-    Daily cost parameters for different types of work time used in optimization calculations.  These costs influence how the optimizer assigns shifts by making certain work patterns more or less economically attractive. Higher costs discourage the optimizer from choosing those assignments, while lower costs make them more appealing.  **Business Impact:** - Controls overtime usage (higher overtime costs = less overtime assignments) - Manages idle time between shifts (higher idle costs = more efficient scheduling) - Balances expected vs actual work hours (flextime cost management)
+    Daily cost parameters for different types of work time used in optimization calculations.  These costs influence how the optimizer assigns shifts by making certain work patterns more or less economically attractive. Higher costs discourage the optimizer from choosing those assignments, while lower costs make them more appealing.
     """ # noqa: E501
     per_expected_hour: Optional[StrictInt] = Field(default=0, description="Cost per hour of expected work time. Used when worker has guaranteed hours that must be paid regardless of actual assignments.")
     per_flextime_positive_hour: Optional[StrictInt] = Field(default=8, description="Cost per hour when worker exceeds their standard daily hours (positive flextime). Higher values discourage over-scheduling on individual days.")

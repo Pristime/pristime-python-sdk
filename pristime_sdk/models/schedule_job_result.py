@@ -18,12 +18,13 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
 from pristime_sdk.models.broken_constraints import BrokenConstraints
 from pristime_sdk.models.durations import Durations
 from pristime_sdk.models.metrics import Metrics
 from pristime_sdk.models.shifts import Shifts
+from pristime_sdk.models.worker_metrics import WorkerMetrics
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -35,7 +36,8 @@ class ScheduleJobResult(BaseModel):
     shifts: Shifts
     durations: Durations
     broken_constraints: Optional[BrokenConstraints] = None
-    __properties: ClassVar[List[str]] = ["metrics", "shifts", "durations", "broken_constraints"]
+    workers: Dict[str, WorkerMetrics] = Field(description="Metrics for each worker.")
+    __properties: ClassVar[List[str]] = ["metrics", "shifts", "durations", "broken_constraints", "workers"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -88,6 +90,13 @@ class ScheduleJobResult(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of broken_constraints
         if self.broken_constraints:
             _dict['broken_constraints'] = self.broken_constraints.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each value in workers (dict)
+        _field_dict = {}
+        if self.workers:
+            for _key_workers in self.workers:
+                if self.workers[_key_workers]:
+                    _field_dict[_key_workers] = self.workers[_key_workers].to_dict()
+            _dict['workers'] = _field_dict
         # set to None if metrics (nullable) is None
         # and model_fields_set contains the field
         if self.metrics is None and "metrics" in self.model_fields_set:
@@ -113,7 +122,13 @@ class ScheduleJobResult(BaseModel):
             "metrics": Metrics.from_dict(obj["metrics"]) if obj.get("metrics") is not None else None,
             "shifts": Shifts.from_dict(obj["shifts"]) if obj.get("shifts") is not None else None,
             "durations": Durations.from_dict(obj["durations"]) if obj.get("durations") is not None else None,
-            "broken_constraints": BrokenConstraints.from_dict(obj["broken_constraints"]) if obj.get("broken_constraints") is not None else None
+            "broken_constraints": BrokenConstraints.from_dict(obj["broken_constraints"]) if obj.get("broken_constraints") is not None else None,
+            "workers": dict(
+                (_k, WorkerMetrics.from_dict(_v))
+                for _k, _v in obj["workers"].items()
+            )
+            if obj.get("workers") is not None
+            else None
         })
         return _obj
 

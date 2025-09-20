@@ -6,8 +6,8 @@ Defines minimum rest periods required between work assignments.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**between_shifts_minutes** | **int** | Minimum rest time in minutes between consecutive shifts (e.g., 480 minutes &#x3D; 8 hours). Prevents back-to-back shifts that could cause fatigue. | 
-**between_days_minutes** | **int** | Minimum rest time in minutes from end of last shift on one calendar day to start of first shift on next day (e.g., 600 minutes &#x3D; 10 hours overnight rest). | 
+**between_shifts_minutes** | **int** | Minimum rest time in minutes between consecutive shifts (e.g., 480 minutes &#x3D; 8 hours). Prevents back-to-back shifts that could cause fatigue. | [optional] [default to 60]
+**between_days_minutes** | **int** | Minimum rest time in minutes from end of last shift on one calendar day to start of first shift on next day (e.g., 600 minutes &#x3D; 10 hours overnight rest). | [optional] [default to 600]
 
 ## Example
 

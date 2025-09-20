@@ -6,8 +6,8 @@ Container for all time balance tracking for a worker.  Helps ensure fair workloa
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**overtime_balance** | [**Balance**](Balance.md) |  | 
-**flextime_balance** | [**Balance**](Balance.md) |  | 
+**overtime_balance** | [**Balance**](Balance.md) |  | [optional] 
+**flextime_balance** | [**Balance**](Balance.md) |  | [optional] 
 
 ## Example
 

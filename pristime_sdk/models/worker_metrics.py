@@ -19,18 +19,17 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field
-from typing import Any, ClassVar, Dict, List, Optional
-from typing_extensions import Annotated
+from typing import Any, ClassVar, Dict, List
+from pristime_sdk.models.period_metrics import PeriodMetrics
 from typing import Optional, Set
 from typing_extensions import Self
 
-class MinBreakDuration(BaseModel):
+class WorkerMetrics(BaseModel):
     """
-    Defines minimum rest periods required between work assignments.
+    WorkerMetrics
     """ # noqa: E501
-    between_shifts_minutes: Optional[Annotated[int, Field(le=1440, strict=True, ge=0)]] = Field(default=60, description="Minimum rest time in minutes between consecutive shifts (e.g., 480 minutes = 8 hours). Prevents back-to-back shifts that could cause fatigue.")
-    between_days_minutes: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=600, description="Minimum rest time in minutes from end of last shift on one calendar day to start of first shift on next day (e.g., 600 minutes = 10 hours overnight rest).")
-    __properties: ClassVar[List[str]] = ["between_shifts_minutes", "between_days_minutes"]
+    period_metrics: List[PeriodMetrics] = Field(description="Metrics for each period.")
+    __properties: ClassVar[List[str]] = ["period_metrics"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -50,7 +49,7 @@ class MinBreakDuration(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of MinBreakDuration from a JSON string"""
+        """Create an instance of WorkerMetrics from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -71,11 +70,18 @@ class MinBreakDuration(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in period_metrics (list)
+        _items = []
+        if self.period_metrics:
+            for _item_period_metrics in self.period_metrics:
+                if _item_period_metrics:
+                    _items.append(_item_period_metrics.to_dict())
+            _dict['period_metrics'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of MinBreakDuration from a dict"""
+        """Create an instance of WorkerMetrics from a dict"""
         if obj is None:
             return None
 
@@ -85,11 +91,10 @@ class MinBreakDuration(BaseModel):
         # raise errors for additional fields in the input
         for _key in obj.keys():
             if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in MinBreakDuration) in the input: " + _key)
+                raise ValueError("Error due to additional fields (not defined in WorkerMetrics) in the input: " + _key)
 
         _obj = cls.model_validate({
-            "between_shifts_minutes": obj.get("between_shifts_minutes") if obj.get("between_shifts_minutes") is not None else 60,
-            "between_days_minutes": obj.get("between_days_minutes") if obj.get("between_days_minutes") is not None else 600
+            "period_metrics": [PeriodMetrics.from_dict(_item) for _item in obj["period_metrics"]] if obj.get("period_metrics") is not None else None
         })
         return _obj
 

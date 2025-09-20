@@ -120,6 +120,7 @@ Class | Method | HTTP request | Description
  - [Demand](docs/Demand.md)
  - [Durations](docs/Durations.md)
  - [ErrorResponse](docs/ErrorResponse.md)
+ - [HealthCheckResponse](docs/HealthCheckResponse.md)
  - [MaxConsecutiveWorkdays](docs/MaxConsecutiveWorkdays.md)
  - [Metrics](docs/Metrics.md)
  - [MinBreakDuration](docs/MinBreakDuration.md)
@@ -130,7 +131,6 @@ Class | Method | HTTP request | Description
  - [PeriodMetrics](docs/PeriodMetrics.md)
  - [PeriodTimeConstraints](docs/PeriodTimeConstraints.md)
  - [ProvidedShiftsDurations](docs/ProvidedShiftsDurations.md)
- - [Response](docs/Response.md)
  - [ScheduleJobConfig](docs/ScheduleJobConfig.md)
  - [ScheduleJobResponse](docs/ScheduleJobResponse.md)
  - [ScheduleJobResult](docs/ScheduleJobResult.md)
@@ -146,6 +146,7 @@ Class | Method | HTTP request | Description
  - [WorkDuration](docs/WorkDuration.md)
  - [Worker](docs/Worker.md)
  - [WorkerCost](docs/WorkerCost.md)
+ - [WorkerMetrics](docs/WorkerMetrics.md)
  - [WorkerRevenue](docs/WorkerRevenue.md)
 
 

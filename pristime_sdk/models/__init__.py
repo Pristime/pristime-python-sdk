@@ -29,6 +29,7 @@ from pristime_sdk.models.day_time_constraints import DayTimeConstraints
 from pristime_sdk.models.demand import Demand
 from pristime_sdk.models.durations import Durations
 from pristime_sdk.models.error_response import ErrorResponse
+from pristime_sdk.models.health_check_response import HealthCheckResponse
 from pristime_sdk.models.max_consecutive_workdays import MaxConsecutiveWorkdays
 from pristime_sdk.models.metrics import Metrics
 from pristime_sdk.models.min_break_duration import MinBreakDuration
@@ -39,7 +40,6 @@ from pristime_sdk.models.period_day_constraints import PeriodDayConstraints
 from pristime_sdk.models.period_metrics import PeriodMetrics
 from pristime_sdk.models.period_time_constraints import PeriodTimeConstraints
 from pristime_sdk.models.provided_shifts_durations import ProvidedShiftsDurations
-from pristime_sdk.models.response import Response
 from pristime_sdk.models.schedule_job_config import ScheduleJobConfig
 from pristime_sdk.models.schedule_job_response import ScheduleJobResponse
 from pristime_sdk.models.schedule_job_result import ScheduleJobResult
@@ -55,5 +55,6 @@ from pristime_sdk.models.tag_count import TagCount
 from pristime_sdk.models.work_duration import WorkDuration
 from pristime_sdk.models.worker import Worker
 from pristime_sdk.models.worker_cost import WorkerCost
+from pristime_sdk.models.worker_metrics import WorkerMetrics
 from pristime_sdk.models.worker_revenue import WorkerRevenue
 

@@ -36,13 +36,11 @@ class TestMaxConsecutiveWorkdays(unittest.TestCase):
         model = MaxConsecutiveWorkdays()
         if include_optional:
             return MaxConsecutiveWorkdays(
-                preferred = 1.0,
-                absolute = 1.0
+                absolute = 0.0,
+                preferred = 0.0
             )
         else:
             return MaxConsecutiveWorkdays(
-                preferred = 1.0,
-                absolute = 1.0,
         )
         """
 

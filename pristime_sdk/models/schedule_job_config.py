@@ -18,7 +18,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StrictBool
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from typing import Optional, Set
@@ -28,9 +28,10 @@ class ScheduleJobConfig(BaseModel):
     """
     Configuration settings for the workforce scheduling optimization algorithm.  These settings control how the optimization engine processes your scheduling request, including performance optimizations, solver parameters, and resource allocation. Most users can use the default values for optimal performance.
     """ # noqa: E501
+    adjust_thresholds_on_violation: Optional[StrictBool] = Field(default=False, description="When contract constraints are violated, automatically adjust thresholds instead of raising an error. If False, raises ValueError with constraint violations. Currently, only supported for max_overtime, max_assigned_time, max_scheduled_time (at period and day level), max_scheduled_days (at period level).")
     webhook_url: Optional[Annotated[str, Field(min_length=1, strict=True, max_length=2083)]] = None
     webhook_secret: Optional[Annotated[str, Field(min_length=8, strict=True)]] = None
-    __properties: ClassVar[List[str]] = ["webhook_url", "webhook_secret"]
+    __properties: ClassVar[List[str]] = ["adjust_thresholds_on_violation", "webhook_url", "webhook_secret"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -98,6 +99,7 @@ class ScheduleJobConfig(BaseModel):
                 raise ValueError("Error due to additional fields (not defined in ScheduleJobConfig) in the input: " + _key)
 
         _obj = cls.model_validate({
+            "adjust_thresholds_on_violation": obj.get("adjust_thresholds_on_violation") if obj.get("adjust_thresholds_on_violation") is not None else False,
             "webhook_url": obj.get("webhook_url"),
             "webhook_secret": obj.get("webhook_secret")
         })

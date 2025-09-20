@@ -19,18 +19,18 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field
-from typing import Any, ClassVar, Dict, List
+from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from typing import Optional, Set
 from typing_extensions import Self
 
 class MaxConsecutiveWorkdays(BaseModel):
     """
-    Limits consecutive working days to prevent worker burnout and ensure adequate rest periods.  **Two-tier system:** - **Preferred maximum**: Soft constraint - optimizer tries to respect this limit but can exceed if necessary - **Absolute maximum**: Hard constraint - optimizer will never exceed this limit under any circumstances  Common patterns: - 5 preferred, 6 absolute: Standard Monday-Friday with weekend flexibility - 3 preferred, 5 absolute: Part-time workers with occasional full-time coverage - 6 preferred, 7 absolute: Full-time workers in 24/7 operations
+    Limits consecutive working days to prevent worker fatigue and ensure adequate rest periods.  **Two-tier system:** - **Preferred maximum**: Soft constraint - optimizer tries to respect this limit but can exceed if necessary - **Absolute maximum**: Hard constraint - optimizer will never exceed this limit under any circumstances  Common patterns: - 5 preferred, 6 absolute: Standard Monday-Friday with weekend flexibility - 3 preferred, 5 absolute: Part-time workers with occasional full-time coverage - 6 preferred, 7 absolute: Full-time workers in 24/7 operations
     """ # noqa: E501
-    preferred: Annotated[int, Field(strict=True, ge=1)] = Field(description="Target maximum consecutive workdays. The optimizer tries to stay within this limit but may exceed it to meet critical staffing needs.")
-    absolute: Annotated[int, Field(strict=True, ge=1)] = Field(description="Hard maximum consecutive workdays that cannot be exceeded under any circumstances. Must be >= preferred maximum.")
-    __properties: ClassVar[List[str]] = ["preferred", "absolute"]
+    absolute: Optional[Annotated[int, Field(strict=True, ge=0)]] = None
+    preferred: Optional[Annotated[int, Field(strict=True, ge=0)]] = None
+    __properties: ClassVar[List[str]] = ["absolute", "preferred"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -71,6 +71,16 @@ class MaxConsecutiveWorkdays(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if absolute (nullable) is None
+        # and model_fields_set contains the field
+        if self.absolute is None and "absolute" in self.model_fields_set:
+            _dict['absolute'] = None
+
+        # set to None if preferred (nullable) is None
+        # and model_fields_set contains the field
+        if self.preferred is None and "preferred" in self.model_fields_set:
+            _dict['preferred'] = None
+
         return _dict
 
     @classmethod
@@ -88,8 +98,8 @@ class MaxConsecutiveWorkdays(BaseModel):
                 raise ValueError("Error due to additional fields (not defined in MaxConsecutiveWorkdays) in the input: " + _key)
 
         _obj = cls.model_validate({
-            "preferred": obj.get("preferred"),
-            "absolute": obj.get("absolute")
+            "absolute": obj.get("absolute"),
+            "preferred": obj.get("preferred")
         })
         return _obj
 

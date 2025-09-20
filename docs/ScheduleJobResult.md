@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **shifts** | [**Shifts**](Shifts.md) |  | 
 **durations** | [**Durations**](Durations.md) |  | 
 **broken_constraints** | [**BrokenConstraints**](BrokenConstraints.md) |  | [optional] 
+**workers** | [**Dict[str, WorkerMetrics]**](WorkerMetrics.md) | Metrics for each worker. | 
 
 ## Example
 

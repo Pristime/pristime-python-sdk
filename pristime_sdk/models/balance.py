@@ -28,8 +28,8 @@ class Balance(BaseModel):
     Tracks accumulated time balances (overtime, flextime) carried forward between scheduling periods.  Balances can be positive (worker has worked more than expected) or negative (worker has worked less than expected). The optimizer considers these balances when making assignments to help achieve fair workload distribution over time.
     """ # noqa: E501
     current_minutes: Optional[StrictInt] = Field(default=0, description="Current accumulated balance in minutes. Positive = worker has worked more than expected, negative = worker has worked less than expected.")
-    min_minutes: StrictInt = Field(description="Minimum allowed balance in minutes (smallest value allowed). Prevents excessive time debt to workers.")
-    max_minutes: StrictInt = Field(description="Maximum allowed balance in minutes (largest value allowed). Prevents excessive time debt from workers.")
+    min_minutes: Optional[StrictInt] = Field(default=0, description="Minimum allowed balance in minutes (smallest value allowed). Prevents excessive time debt to workers.")
+    max_minutes: Optional[StrictInt] = None
     __properties: ClassVar[List[str]] = ["current_minutes", "min_minutes", "max_minutes"]
 
     model_config = ConfigDict(
@@ -71,6 +71,11 @@ class Balance(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if max_minutes (nullable) is None
+        # and model_fields_set contains the field
+        if self.max_minutes is None and "max_minutes" in self.model_fields_set:
+            _dict['max_minutes'] = None
+
         return _dict
 
     @classmethod
@@ -89,7 +94,7 @@ class Balance(BaseModel):
 
         _obj = cls.model_validate({
             "current_minutes": obj.get("current_minutes") if obj.get("current_minutes") is not None else 0,
-            "min_minutes": obj.get("min_minutes"),
+            "min_minutes": obj.get("min_minutes") if obj.get("min_minutes") is not None else 0,
             "max_minutes": obj.get("max_minutes")
         })
         return _obj

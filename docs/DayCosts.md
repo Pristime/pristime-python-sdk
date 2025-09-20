@@ -1,6 +1,6 @@
 # DayCosts
 
-Daily cost parameters for different types of work time used in optimization calculations.  These costs influence how the optimizer assigns shifts by making certain work patterns more or less economically attractive. Higher costs discourage the optimizer from choosing those assignments, while lower costs make them more appealing.  **Business Impact:** - Controls overtime usage (higher overtime costs = less overtime assignments) - Manages idle time between shifts (higher idle costs = more efficient scheduling) - Balances expected vs actual work hours (flextime cost management)
+Daily cost parameters for different types of work time used in optimization calculations.  These costs influence how the optimizer assigns shifts by making certain work patterns more or less economically attractive. Higher costs discourage the optimizer from choosing those assignments, while lower costs make them more appealing.
 
 ## Properties
 

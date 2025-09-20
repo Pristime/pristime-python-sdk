@@ -30,7 +30,7 @@ class DayContract(BaseModel):
     """
     Complete daily contract configuration for a worker on a specific date.  This is the primary class for defining how a worker can be scheduled on any given day. It combines time constraints and cost parameters to provide a complete picture of the worker's daily contract obligations and limitations.  **Main Components:** - **Time Constraints**: Daily hour limits and requirements (min/max work time, overtime, PTO) - **Cost Parameters**: How different types of time affect optimization calculations - **Policy Settings**: Rules for combining different time types (overtime + PTO, etc.)
     """ # noqa: E501
-    time_constraints: Optional[DayTimeConstraints] = None
+    time_constraints: DayTimeConstraints
     allow: Optional[DayAllow] = None
     costs: Optional[DayCosts] = None
     overtime_factor: Optional[StrictInt] = Field(default=1, description="Multiplier applied to overtime hours before adding to the worker's overtime balance. Values >1 accumulate overtime debt faster.")

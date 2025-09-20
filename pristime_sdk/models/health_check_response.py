@@ -23,9 +23,9 @@ from typing import Any, ClassVar, Dict, List
 from typing import Optional, Set
 from typing_extensions import Self
 
-class Response(BaseModel):
+class HealthCheckResponse(BaseModel):
     """
-    Response
+    HealthCheckResponse
     """ # noqa: E501
     status: StrictStr
     __properties: ClassVar[List[str]] = ["status"]
@@ -48,7 +48,7 @@ class Response(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of Response from a JSON string"""
+        """Create an instance of HealthCheckResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,7 +73,7 @@ class Response(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of Response from a dict"""
+        """Create an instance of HealthCheckResponse from a dict"""
         if obj is None:
             return None
 
@@ -83,7 +83,7 @@ class Response(BaseModel):
         # raise errors for additional fields in the input
         for _key in obj.keys():
             if _key not in cls.__properties:
-                raise ValueError("Error due to additional fields (not defined in Response) in the input: " + _key)
+                raise ValueError("Error due to additional fields (not defined in HealthCheckResponse) in the input: " + _key)
 
         _obj = cls.model_validate({
             "status": obj.get("status")

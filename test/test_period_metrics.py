@@ -36,6 +36,29 @@ class TestPeriodMetrics(unittest.TestCase):
         model = PeriodMetrics()
         if include_optional:
             return PeriodMetrics(
+                start_date = datetime.datetime.strptime('1975-12-30', '%Y-%m-%d').date(),
+                end_date = datetime.datetime.strptime('1975-12-30', '%Y-%m-%d').date(),
+                day_metrics = {
+                    'key' : pristime_sdk.models.day_metrics.DayMetrics(
+                        start_datetime = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
+                        end_datetime = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
+                        idle_time_minutes = 0.0, 
+                        has_exceeded_preferred_max_consecutive_workdays_limit = True, 
+                        has_scheduled_time = True, 
+                        has_expected_time = True, 
+                        has_overtime = True, 
+                        has_assigned_time = True, 
+                        has_max_expected_time_reached = True, 
+                        has_any_max_expected_reached = True, 
+                        expected_time_minutes = 0.0, 
+                        overtime_minutes = 0.0, 
+                        assigned_time_minutes = 0.0, 
+                        recovered_time_minutes = 0.0, 
+                        pto_time_minutes = 0.0, 
+                        flextime_negative_minutes = 0.0, 
+                        flextime_positive_minutes = 0.0, 
+                        overtime_balance_minutes = 56, )
+                    },
                 expected_time_minutes = 0.0,
                 overtime_minutes = 0.0,
                 assigned_time_minutes = 0.0,
@@ -44,11 +67,34 @@ class TestPeriodMetrics(unittest.TestCase):
                 flextime_negative_minutes = 0.0,
                 flextime_positive_minutes = 0.0,
                 flextime_balance_minutes = 56,
-                active_days = 0.0,
+                scheduled_days = 0.0,
                 expected_days = 0.0
             )
         else:
             return PeriodMetrics(
+                start_date = datetime.datetime.strptime('1975-12-30', '%Y-%m-%d').date(),
+                end_date = datetime.datetime.strptime('1975-12-30', '%Y-%m-%d').date(),
+                day_metrics = {
+                    'key' : pristime_sdk.models.day_metrics.DayMetrics(
+                        start_datetime = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
+                        end_datetime = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
+                        idle_time_minutes = 0.0, 
+                        has_exceeded_preferred_max_consecutive_workdays_limit = True, 
+                        has_scheduled_time = True, 
+                        has_expected_time = True, 
+                        has_overtime = True, 
+                        has_assigned_time = True, 
+                        has_max_expected_time_reached = True, 
+                        has_any_max_expected_reached = True, 
+                        expected_time_minutes = 0.0, 
+                        overtime_minutes = 0.0, 
+                        assigned_time_minutes = 0.0, 
+                        recovered_time_minutes = 0.0, 
+                        pto_time_minutes = 0.0, 
+                        flextime_negative_minutes = 0.0, 
+                        flextime_positive_minutes = 0.0, 
+                        overtime_balance_minutes = 56, )
+                    },
         )
         """
 

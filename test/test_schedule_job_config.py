@@ -36,6 +36,7 @@ class TestScheduleJobConfig(unittest.TestCase):
         model = ScheduleJobConfig()
         if include_optional:
             return ScheduleJobConfig(
+                adjust_thresholds_on_violation = True,
                 webhook_url = '0',
                 webhook_secret = '01234567'
             )

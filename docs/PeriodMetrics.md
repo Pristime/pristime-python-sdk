@@ -6,6 +6,9 @@ Time tracking for a worker over a specific period, and flextime balance at the e
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**start_date** | **date** |  | 
+**end_date** | **date** |  | 
+**day_metrics** | [**Dict[str, DayMetrics]**](DayMetrics.md) |  | 
 **expected_time_minutes** | **int** |  | [optional] 
 **overtime_minutes** | **int** |  | [optional] 
 **assigned_time_minutes** | **int** |  | [optional] 
@@ -14,7 +17,7 @@ Name | Type | Description | Notes
 **flextime_negative_minutes** | **int** |  | [optional] 
 **flextime_positive_minutes** | **int** |  | [optional] 
 **flextime_balance_minutes** | **int** |  | [optional] 
-**active_days** | **int** |  | [optional] 
+**scheduled_days** | **int** |  | [optional] 
 **expected_days** | **int** |  | [optional] 
 
 ## Example

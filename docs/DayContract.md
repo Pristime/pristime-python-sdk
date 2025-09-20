@@ -6,7 +6,7 @@ Complete daily contract configuration for a worker on a specific date.  This is 
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**time_constraints** | [**DayTimeConstraints**](DayTimeConstraints.md) |  | [optional] 
+**time_constraints** | [**DayTimeConstraints**](DayTimeConstraints.md) |  | 
 **allow** | [**DayAllow**](DayAllow.md) |  | [optional] 
 **costs** | [**DayCosts**](DayCosts.md) |  | [optional] 
 **overtime_factor** | **int** | Multiplier applied to overtime hours before adding to the worker&#39;s overtime balance. Values &gt;1 accumulate overtime debt faster. | [optional] [default to 1]

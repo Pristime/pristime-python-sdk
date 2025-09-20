@@ -18,9 +18,11 @@ import pprint
 import re  # noqa: F401
 import json
 
+from datetime import date
 from pydantic import BaseModel, ConfigDict, Field, StrictInt
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
+from pristime_sdk.models.day_metrics import DayMetrics
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -28,6 +30,9 @@ class PeriodMetrics(BaseModel):
     """
     Time tracking for a worker over a specific period, and flextime balance at the end of the period.
     """ # noqa: E501
+    start_date: date
+    end_date: date
+    day_metrics: Dict[str, DayMetrics]
     expected_time_minutes: Optional[Annotated[int, Field(strict=True, ge=0)]] = None
     overtime_minutes: Optional[Annotated[int, Field(strict=True, ge=0)]] = None
     assigned_time_minutes: Optional[Annotated[int, Field(strict=True, ge=0)]] = None
@@ -36,9 +41,9 @@ class PeriodMetrics(BaseModel):
     flextime_negative_minutes: Optional[Annotated[int, Field(strict=True, ge=0)]] = None
     flextime_positive_minutes: Optional[Annotated[int, Field(strict=True, ge=0)]] = None
     flextime_balance_minutes: Optional[StrictInt] = None
-    active_days: Optional[Annotated[int, Field(strict=True, ge=0)]] = None
+    scheduled_days: Optional[Annotated[int, Field(strict=True, ge=0)]] = None
     expected_days: Optional[Annotated[int, Field(strict=True, ge=0)]] = None
-    __properties: ClassVar[List[str]] = ["expected_time_minutes", "overtime_minutes", "assigned_time_minutes", "recovered_time_minutes", "pto_time_minutes", "flextime_negative_minutes", "flextime_positive_minutes", "flextime_balance_minutes", "active_days", "expected_days"]
+    __properties: ClassVar[List[str]] = ["start_date", "end_date", "day_metrics", "expected_time_minutes", "overtime_minutes", "assigned_time_minutes", "recovered_time_minutes", "pto_time_minutes", "flextime_negative_minutes", "flextime_positive_minutes", "flextime_balance_minutes", "scheduled_days", "expected_days"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -79,6 +84,13 @@ class PeriodMetrics(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each value in day_metrics (dict)
+        _field_dict = {}
+        if self.day_metrics:
+            for _key_day_metrics in self.day_metrics:
+                if self.day_metrics[_key_day_metrics]:
+                    _field_dict[_key_day_metrics] = self.day_metrics[_key_day_metrics].to_dict()
+            _dict['day_metrics'] = _field_dict
         # set to None if expected_time_minutes (nullable) is None
         # and model_fields_set contains the field
         if self.expected_time_minutes is None and "expected_time_minutes" in self.model_fields_set:
@@ -119,10 +131,10 @@ class PeriodMetrics(BaseModel):
         if self.flextime_balance_minutes is None and "flextime_balance_minutes" in self.model_fields_set:
             _dict['flextime_balance_minutes'] = None
 
-        # set to None if active_days (nullable) is None
+        # set to None if scheduled_days (nullable) is None
         # and model_fields_set contains the field
-        if self.active_days is None and "active_days" in self.model_fields_set:
-            _dict['active_days'] = None
+        if self.scheduled_days is None and "scheduled_days" in self.model_fields_set:
+            _dict['scheduled_days'] = None
 
         # set to None if expected_days (nullable) is None
         # and model_fields_set contains the field
@@ -146,6 +158,14 @@ class PeriodMetrics(BaseModel):
                 raise ValueError("Error due to additional fields (not defined in PeriodMetrics) in the input: " + _key)
 
         _obj = cls.model_validate({
+            "start_date": obj.get("start_date"),
+            "end_date": obj.get("end_date"),
+            "day_metrics": dict(
+                (_k, DayMetrics.from_dict(_v))
+                for _k, _v in obj["day_metrics"].items()
+            )
+            if obj.get("day_metrics") is not None
+            else None,
             "expected_time_minutes": obj.get("expected_time_minutes"),
             "overtime_minutes": obj.get("overtime_minutes"),
             "assigned_time_minutes": obj.get("assigned_time_minutes"),
@@ -154,7 +174,7 @@ class PeriodMetrics(BaseModel):
             "flextime_negative_minutes": obj.get("flextime_negative_minutes"),
             "flextime_positive_minutes": obj.get("flextime_positive_minutes"),
             "flextime_balance_minutes": obj.get("flextime_balance_minutes"),
-            "active_days": obj.get("active_days"),
+            "scheduled_days": obj.get("scheduled_days"),
             "expected_days": obj.get("expected_days")
         })
         return _obj

@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **health_check**
-> Response health_check()
+> HealthCheckResponse health_check()
 
 Read Health
 
@@ -17,7 +17,7 @@ Read Health
 
 ```python
 import pristime_sdk
-from pristime_sdk.models.response import Response
+from pristime_sdk.models.health_check_response import HealthCheckResponse
 from pristime_sdk.rest import ApiException
 from pprint import pprint
 
@@ -50,7 +50,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**Response**](Response.md)
+[**HealthCheckResponse**](HealthCheckResponse.md)
 
 ### Authorization
 

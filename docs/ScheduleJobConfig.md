@@ -6,6 +6,7 @@ Configuration settings for the workforce scheduling optimization algorithm.  The
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**adjust_thresholds_on_violation** | **bool** | When contract constraints are violated, automatically adjust thresholds instead of raising an error. If False, raises ValueError with constraint violations. Currently, only supported for max_overtime, max_assigned_time, max_scheduled_time (at period and day level), max_scheduled_days (at period level). | [optional] [default to False]
 **webhook_url** | **str** |  | [optional] 
 **webhook_secret** | **str** |  | [optional] 
 

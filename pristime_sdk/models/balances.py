@@ -19,7 +19,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict
-from typing import Any, ClassVar, Dict, List
+from typing import Any, ClassVar, Dict, List, Optional
 from pristime_sdk.models.balance import Balance
 from typing import Optional, Set
 from typing_extensions import Self
@@ -28,8 +28,8 @@ class Balances(BaseModel):
     """
     Container for all time balance tracking for a worker.  Helps ensure fair workload distribution across scheduling periods by carrying forward accumulated overtime and flextime balances.
     """ # noqa: E501
-    overtime_balance: Balance
-    flextime_balance: Balance
+    overtime_balance: Optional[Balance] = None
+    flextime_balance: Optional[Balance] = None
     __properties: ClassVar[List[str]] = ["overtime_balance", "flextime_balance"]
 
     model_config = ConfigDict(

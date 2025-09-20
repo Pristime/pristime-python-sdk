@@ -7,8 +7,8 @@ Tracks accumulated time balances (overtime, flextime) carried forward between sc
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **current_minutes** | **int** | Current accumulated balance in minutes. Positive &#x3D; worker has worked more than expected, negative &#x3D; worker has worked less than expected. | [optional] [default to 0]
-**min_minutes** | **int** | Minimum allowed balance in minutes (smallest value allowed). Prevents excessive time debt to workers. | 
-**max_minutes** | **int** | Maximum allowed balance in minutes (largest value allowed). Prevents excessive time debt from workers. | 
+**min_minutes** | **int** | Minimum allowed balance in minutes (smallest value allowed). Prevents excessive time debt to workers. | [optional] [default to 0]
+**max_minutes** | **int** |  | [optional] 
 
 ## Example
 

@@ -15,10 +15,10 @@
 
 import unittest
 
-from pristime_sdk.models.response import Response
+from pristime_sdk.models.health_check_response import HealthCheckResponse
 
-class TestResponse(unittest.TestCase):
-    """Response unit test stubs"""
+class TestHealthCheckResponse(unittest.TestCase):
+    """HealthCheckResponse unit test stubs"""
 
     def setUp(self):
         pass
@@ -26,26 +26,26 @@ class TestResponse(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> Response:
-        """Test Response
+    def make_instance(self, include_optional) -> HealthCheckResponse:
+        """Test HealthCheckResponse
             include_optional is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # uncomment below to create an instance of `Response`
+        # uncomment below to create an instance of `HealthCheckResponse`
         """
-        model = Response()
+        model = HealthCheckResponse()
         if include_optional:
-            return Response(
+            return HealthCheckResponse(
                 status = ''
             )
         else:
-            return Response(
+            return HealthCheckResponse(
                 status = '',
         )
         """
 
-    def testResponse(self):
-        """Test Response"""
+    def testHealthCheckResponse(self):
+        """Test HealthCheckResponse"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

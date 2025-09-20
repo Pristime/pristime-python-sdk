@@ -47,14 +47,6 @@ class TestBalances(unittest.TestCase):
             )
         else:
             return Balances(
-                overtime_balance = pristime_sdk.models.balance.Balance(
-                    current_minutes = 56, 
-                    min_minutes = 56, 
-                    max_minutes = 56, ),
-                flextime_balance = pristime_sdk.models.balance.Balance(
-                    current_minutes = 56, 
-                    min_minutes = 56, 
-                    max_minutes = 56, ),
         )
         """
 

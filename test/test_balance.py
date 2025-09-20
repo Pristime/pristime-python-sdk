@@ -42,8 +42,6 @@ class TestBalance(unittest.TestCase):
             )
         else:
             return Balance(
-                min_minutes = 56,
-                max_minutes = 56,
         )
         """
 

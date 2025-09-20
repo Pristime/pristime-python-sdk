@@ -41,8 +41,6 @@ class TestMinBreakDuration(unittest.TestCase):
             )
         else:
             return MinBreakDuration(
-                between_shifts_minutes = 0.0,
-                between_days_minutes = 0.0,
         )
         """
 
